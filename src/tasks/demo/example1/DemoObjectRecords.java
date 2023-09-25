@@ -13,7 +13,7 @@ public class DemoObjectRecords {
 	public static List<DemoObject> getDemoObjects(int howMany) {
 		
 		List<DemoObject> demoObjects = new ArrayList<DemoObject>();
-		IntStream.range(1, howMany).forEach(i -> {
+		IntStream.range(0, howMany).forEach(i -> {
 			demoObjects.add(new DemoObject());
 		});
 		return demoObjects;

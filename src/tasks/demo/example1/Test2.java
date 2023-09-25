@@ -38,7 +38,6 @@ public class Test2 {
 
 		long endTime = System.currentTimeMillis();
 		long executionTime = endTime - startTime;
-
 		System.out.println("Execution time: " + executionTime + " milliseconds");
 
 		//demoObjects.forEach(System.out::println);

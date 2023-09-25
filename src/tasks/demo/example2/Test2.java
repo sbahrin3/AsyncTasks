@@ -12,7 +12,7 @@ public class Test2 {
 		
 		List<DemoObject> demoObjects = DemoObjectRecords.getDemoObjects(559);
 		
-		DivideAndRunTask drt = new DivideAndRunTask(demoObjects, (s) -> { SlowTaskService.doSomething(s); });
+		DivideAndRunTask drt = new DivideAndRunTask(demoObjects, s -> SlowTaskService.doSomething(s) );
 		
 		drt.execute();
 		

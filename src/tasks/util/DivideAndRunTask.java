@@ -62,5 +62,77 @@ public class DivideAndRunTask {
 		
 		
 	}
+	
+	
+	List<DividedTask> allTasks;
+	List<List<?>> allElements;
+	
+	public DivideAndRunTask() {
+		allTasks = new ArrayList<>();
+		allElements = new ArrayList<>();
+	}
+	
+	public void addTask(List<?> elements, DividedTask task) {
+		allTasks.add(task);
+		allElements.add(elements);
+	}
+	
+	public void executeAll() {
+		
+		List<List<?>> allSublist = new ArrayList<>();
+		
+		for ( int k=0; k < allElements.size(); k++ ) {
+		
+			List<?> elements = allElements.get(k);
+			DividedTask task = allTasks.get(k);
+			
+			int numOfThreads = 5;
+			int size = elements.size();
+			int divSize = size / numOfThreads;
+					
+			int start = 0, limit = 0;
+			List<List<?>> listOfList = new ArrayList<>();
+			for ( int i=0; i < numOfThreads; i++ ) {
+				start = limit;
+				limit = divSize * (i + 1);
+				listOfList.add(elements.subList(start, limit));
+			}
+			if ( limit < size ) {
+				listOfList.add(elements.subList(limit, size));
+			}
+						
+			for ( int i=0; i < listOfList.size(); i++ ) {
+				List<?> sublist = listOfList.get(i);
+				allSublist.add(sublist);
+				allTasks.add(task);
+			}
+			
+			
+		}
+		
+		
+		ExecutorService executorService = Executors.newFixedThreadPool(allSublist.size());
+		CompletableFuture<?>[] cfarr = new CompletableFuture<?>[allSublist.size()];	
+		
+		for ( int i=0; i < allSublist.size(); i++ ) {
+			List<?> sublist = allSublist.get(i);
+			DividedTask task = allTasks.get(i);
+			cfarr[i] = CompletableFuture.runAsync(() -> {
+				task.run(sublist);
+			}, executorService);
+		}
+		
+		CompletableFuture<?> allOf = CompletableFuture.allOf(cfarr);
+		
+		try {
+			allOf.get();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		executorService.shutdown();
+		
+	}
+	
 
 }

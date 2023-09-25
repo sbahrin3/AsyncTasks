@@ -12,7 +12,7 @@ public class AService {
 
 		Random random = new Random();
 		students.stream().forEach(d -> {
-			Util.sleep(10);
+			Util.sleep(30);
 			d.statusA = random.nextInt(5) + 1;
 		});
 		

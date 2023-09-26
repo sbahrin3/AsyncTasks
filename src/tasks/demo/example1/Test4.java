@@ -14,9 +14,9 @@ public class Test4 {
 		List<DemoObject> demoObjects = DemoObjectRecords.getDemoObjects();
 		
 		DivideAndRunTask drt = new DivideAndRunTask();
-		drt.addTask(demoObjects, s -> AService.doTask(s) );
-		drt.addTask(demoObjects, s -> BService.doSomething(s) );
-		drt.addTask(demoObjects, s -> CService.doOtherThings(s) );
+		drt.addTask(demoObjects, AService::doTask );
+		drt.addTask(demoObjects, BService::doSomething );
+		drt.addTask(demoObjects, CService::doOtherThings );
 
 		drt.executeAll();
 		
